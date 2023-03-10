@@ -1,9 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [id, setId] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!id) {
+      const timeOut = setTimeout(() => {
+        navigate("/signup");
+      }, 2500);
+
+      return () => clearTimeout(timeOut);
+    }
+  }, [id]);
+
+  const onSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        setId("");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -25,6 +47,11 @@ const Dashboard = () => {
   return (
     <div>
       <h2>{id}</h2>
+      <div className="sign-out">
+        <button type="button" onClick={onSignOut}>
+          Sign Out
+        </button>
+      </div>
     </div>
   );
 };
