@@ -25,7 +25,7 @@ const SignUp = () => {
   return (
     <div className="signup-main">
       <section>
-        <h1>Welcome...</h1>
+        <h1>Create Your Account</h1>
         <form>
           <div className="email-input">
             <label htmlFor="email">Email :</label>
